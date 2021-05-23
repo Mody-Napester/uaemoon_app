@@ -1,0 +1,124 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-button slot="start" fill="clear" color="light">
+      <ion-icon slot="icon-only" name="person"></ion-icon>
+    </ion-button>
+
+    <ion-title>My Profile</ion-title>
+
+    <ion-button slot="end" fill="clear" color="light" (click)="openMenu()">
+      <ion-icon slot="icon-only" name="menu"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+
+  <ion-toolbar>
+    <ion-segment [(ngModel)]="selectedSegment" (ionChange)="segmentChange($event)">
+
+      <ion-segment-button value="profile">
+        <ion-label>Profile</ion-label>
+      </ion-segment-button>
+
+      <ion-segment-button value="add-insert">
+        <ion-label>Add Inserts</ion-label>
+      </ion-segment-button>
+
+    </ion-segment>
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-menu side="start" menuId="profileMenu" contentId="profileMain">
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-title>Menu</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <ion-item lines="full" routerLink="/agreement" details>
+        Agreemnt
+      </ion-item>
+      
+      <ion-item lines="full" routerLink="/agreement" details>
+        Add Your Insert
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<ion-router-outlet id="profileMain"></ion-router-outlet>
+
+<ion-content>
+
+  <div *ngIf="selectedSegment == 'profile'">
+    <div class="ion-text-center ion-padding" style="background-color: #273c75;height: 100px;">
+
+      <div class="profile-image-container">
+        <img src="../../assets/images/profile.jpg" />
+      </div>
+
+      <div style="margin-top:150px;">
+        <ion-item>
+          <ion-icon slot="start" name="pulse"></ion-icon>
+          <ion-input placeholder="Your Name" clearInput type="text"></ion-input>
+        </ion-item>
+    
+        <ion-item>
+          <ion-icon slot="start" name="mail"></ion-icon>
+          <ion-input placeholder="Your Email Address" clearInput type="email"></ion-input>
+        </ion-item>
+    
+        <ion-item>
+          <ion-icon slot="start" name="finger-print"></ion-icon>
+          <ion-input placeholder="Your Password" clearInput type="password"></ion-input>
+        </ion-item>
+      
+        <div class="ion-padding-top"> 
+          <ion-button expand="block" size="default" color="primary">Update My Account</ion-button>
+        </div>
+    
+      </div>
+    </div>
+
+  </div>
+
+  <div *ngIf="selectedSegment == 'add-insert'">
+    <div class="ion-text-center ion-padding" style="background-color: #f1c40f;">
+      <img style="width: 70%;" src="../../assets/images/logo.png" alt="">
+    </div>
+
+    <ion-item>
+      <ion-label>Category</ion-label>
+      <ion-select value="brown" okText="Okay" cancelText="Dismiss">
+        <ion-select-option value="brown">Brown</ion-select-option>
+        <ion-select-option value="blonde">Blonde</ion-select-option>
+        <ion-select-option value="black">Black</ion-select-option>
+        <ion-select-option value="red">Red</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon slot="start" name="pulse"></ion-icon>
+      <ion-input placeholder="Title" clearInput type="text"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon slot="start" name="pulse"></ion-icon>
+      <ion-textarea placeholder="Details" clearInput type="text" rows="5"></ion-textarea>
+    </ion-item>
+
+    <ion-item>
+      <ion-button (click)="openCam()" >Take Photo</ion-button>
+    </ion-item>
+
+    <ion-item>
+      <ion-button (click)="upload()" >Upload</ion-button>
+    </ion-item>
+
+    <ion-item>
+      <img src="{{image}}">
+    </ion-item>
+
+  </div>
+
+</ion-content>

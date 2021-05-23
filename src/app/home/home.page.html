@@ -1,20 +1,21 @@
-<ion-header [translucent]="true">
+<!-- <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
       Blank
     </ion-title>
   </ion-toolbar>
-</ion-header>
+</ion-header> -->
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
+<ion-content [fullscreen]="true" color="primary">
   <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+    <!-- <ion-img [src]=""></ion-img> -->
+    <img src="../../assets/images/logo.png" alt="">
+    <strong color="dark">Explore More Ads</strong>
+
+    <div>
+      <ion-button expand="block" size="default" fill="outline" color="dark" class="ion-margin" routerLink="/tabs">Home</ion-button>
+      <ion-button expand="block" size="default" fill="" color="dark" class="ion-margin" routerLink="/login">My Account</ion-button>
+    </div>
+    <!-- <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p> -->
   </div>
 </ion-content>

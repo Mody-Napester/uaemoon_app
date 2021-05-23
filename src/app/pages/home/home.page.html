@@ -1,0 +1,100 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-button slot="start" fill="clear" color="light">
+      <ion-icon slot="icon-only" name="home"></ion-icon>
+    </ion-button>
+
+    <ion-title>Home</ion-title>
+
+    <ion-button slot="end" fill="clear" color="light" (click)="openMenu()">
+      <ion-icon slot="icon-only" name="menu"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-menu side="start" menuId="homeMenu" contentId="homeMain">
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-title>Menu</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <ion-item lines="full" routerLink="/agreement" details>
+        Agreemnt
+      </ion-item>
+      
+      <ion-item lines="full" routerLink="/agreement" details>
+        Add Your Insert
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<ion-router-outlet id="homeMain"></ion-router-outlet>
+
+<ion-content>
+  
+  <img src="../../../assets/images/category.jpg" alt="">
+  <ion-grid fixed>
+    <ion-row>
+
+      <ion-col size="6">
+        <ion-card>
+          <img src="../../assets/images/pl.png" alt="">
+          <ion-card-header>
+            <ion-card-subtitle class="ion-text-center">Card Subtitle</ion-card-subtitle>
+            <!-- <ion-card-title>Card Title</ion-card-title> -->
+          </ion-card-header>
+        
+          <!-- <ion-card-content>
+            Keep close to Nature's heart... and break clear away, once in awhile,
+            and climb a mountain or spend a week in the woods. Wash your spirit clean.
+          </ion-card-content> -->
+        </ion-card>
+      </ion-col>
+
+    </ion-row>
+  </ion-grid>
+
+  <img src="../../../assets/images/vip.jpg" alt="">
+  
+  <ion-item button lines="full">
+    <ion-thumbnail slot="start">
+      <img src="../../assets/images/pl.png" />
+    </ion-thumbnail>
+    <ion-label>Pokémon Yellow</ion-label>
+    <p>Listen, I've had a pretty messed up day...</p>
+  </ion-item>
+
+  <ion-item button detail lines="full">
+    <ion-thumbnail slot="start">
+      <img src="../../assets/images/pl.png" />
+    </ion-thumbnail>
+    <ion-label>Pokémon Yellow</ion-label>
+  </ion-item>
+  
+  <ion-item button detail lines="full">
+    <ion-thumbnail slot="start">
+      <img src="../../assets/images/pl.png" />
+    </ion-thumbnail>
+    <ion-label>Pokémon Yellow</ion-label>
+  </ion-item>
+  
+  <ion-item button lines="full">
+    <ion-thumbnail slot="start">
+      <img src="../../assets/images/pl.png" />
+    </ion-thumbnail>
+    <ion-label>Pokémon Yellow</ion-label>
+    <p>Listen, I've had a pretty messed up day...</p>
+  </ion-item>
+
+  <ion-item button detail lines="full">
+    <ion-thumbnail slot="start">
+      <img src="../../assets/images/pl.png" />
+    </ion-thumbnail>
+    <ion-label>Pokémon Yellow</ion-label>
+  </ion-item>
+
+</ion-content>
