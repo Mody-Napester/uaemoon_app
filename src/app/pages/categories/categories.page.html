@@ -41,11 +41,11 @@
   <ion-grid fixed>
     <ion-row>
 
-      <ion-col size="6">
+      <ion-col size="6" *ngFor="let category of categories$ | async">
         <ion-card (click)="goToInserts()">
-          <img src="../../assets/images/cat.png" alt="">
+          <img [src]="category.picture" alt="">
           <ion-card-header>
-            <ion-card-subtitle class="ion-text-center">Card Subtitle</ion-card-subtitle>
+            <ion-card-subtitle class="ion-text-center">{{ category.name }}</ion-card-subtitle>
           </ion-card-header>
         </ion-card>
       </ion-col>

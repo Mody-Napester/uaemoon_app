@@ -35,66 +35,38 @@
 <ion-router-outlet id="homeMain"></ion-router-outlet>
 
 <ion-content>
-  
+
   <img src="../../../assets/images/category.jpg" alt="">
-  <ion-grid fixed>
+
+  <ion-slides pager="true" [options]="slideOpts">
+    <ion-slide style="height: 200px !important;" *ngFor="let category of categories$ | async" (click)="goToInserts()">
+      <img [src]="category.picture" alt="">
+      <!-- <h1>{{ category.name }}</h1> -->
+    </ion-slide>
+  </ion-slides>
+
+  <!-- <ion-grid fixed>
     <ion-row>
 
-      <ion-col size="6">
-        <ion-card>
-          <img src="../../assets/images/pl.png" alt="">
+      <ion-col size="6" *ngFor="let category of categories$ | async">
+        <ion-card (click)="goToInserts()">
+          <img [src]="category.picture" alt="">
           <ion-card-header>
-            <ion-card-subtitle class="ion-text-center">Card Subtitle</ion-card-subtitle>
-            <!-- <ion-card-title>Card Title</ion-card-title> -->
+            <ion-card-subtitle class="ion-text-center">{{ category.name }}</ion-card-subtitle>
           </ion-card-header>
-        
-          <!-- <ion-card-content>
-            Keep close to Nature's heart... and break clear away, once in awhile,
-            and climb a mountain or spend a week in the woods. Wash your spirit clean.
-          </ion-card-content> -->
         </ion-card>
       </ion-col>
 
     </ion-row>
-  </ion-grid>
+  </ion-grid> -->
 
   <img src="../../../assets/images/vip.jpg" alt="">
   
-  <ion-item button lines="full">
+  <ion-item *ngFor="let insert of inserts$ | async" button lines="full" (click)="openDetailsModal(insert)">
     <ion-thumbnail slot="start">
-      <img src="../../assets/images/pl.png" />
+      <img [src]="insert.images" />
     </ion-thumbnail>
-    <ion-label>Pokémon Yellow</ion-label>
-    <p>Listen, I've had a pretty messed up day...</p>
-  </ion-item>
-
-  <ion-item button detail lines="full">
-    <ion-thumbnail slot="start">
-      <img src="../../assets/images/pl.png" />
-    </ion-thumbnail>
-    <ion-label>Pokémon Yellow</ion-label>
-  </ion-item>
-  
-  <ion-item button detail lines="full">
-    <ion-thumbnail slot="start">
-      <img src="../../assets/images/pl.png" />
-    </ion-thumbnail>
-    <ion-label>Pokémon Yellow</ion-label>
-  </ion-item>
-  
-  <ion-item button lines="full">
-    <ion-thumbnail slot="start">
-      <img src="../../assets/images/pl.png" />
-    </ion-thumbnail>
-    <ion-label>Pokémon Yellow</ion-label>
-    <p>Listen, I've had a pretty messed up day...</p>
-  </ion-item>
-
-  <ion-item button detail lines="full">
-    <ion-thumbnail slot="start">
-      <img src="../../assets/images/pl.png" />
-    </ion-thumbnail>
-    <ion-label>Pokémon Yellow</ion-label>
+    <ion-label>{{ insert.title_en }}</ion-label>
   </ion-item>
 
 </ion-content>

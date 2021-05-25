@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-back-button slot="start" color="dark"></ion-back-button>
+    <ion-title>Details</ion-title>
+
+    <ion-button (click)="closeModal()" slot="end" fill="clear" color="light" (click)="openFirst()">
+      <ion-icon slot="icon-only" name="close"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content>
+  <div style="height: 200px;overflow: hidden;">
+    <img src="{{ insert.cover }}" alt="">
+  </div>
+
+  <div class="ion-padding ion-text-center">
+    <h3>{{ insert.title_en }}</h3>
+
+    <div>
+      {{ insert.details_en }}
+    </div>
+
+  </div>
+  
+</ion-content>
+
+<!-- <ion-footer>
+  <ion-toolbar color="tertiary ion-text-center">
+      <ion-icon name="phone-portrait"></ion-icon> 0123456789
+      <ion-icon name="mail"></ion-icon> ahmsam39@gmail.com
+  </ion-toolbar>
+</ion-footer> -->

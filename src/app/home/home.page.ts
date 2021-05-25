@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -7,6 +8,26 @@ import { Component } from '@angular/core';
 })
 export class HomePage {
 
-  constructor() {}
+  constructor(
+    private navCtrl:NavController
+  ) {}
+
+  goToHome(){
+    let email = localStorage.getItem('email');
+    if(email){
+      this.navCtrl.navigateRoot('/tabs');
+    }else{
+      this.navCtrl.navigateForward('/login');
+    }
+  }
+
+  goToAccount(){
+    let email = localStorage.getItem('email');
+    if(email){
+      this.navCtrl.navigateRoot('/tabs');
+    }else{
+      this.navCtrl.navigateForward('/login');
+    }
+  }
 
 }

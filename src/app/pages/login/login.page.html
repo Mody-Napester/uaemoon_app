@@ -14,19 +14,22 @@
   <h2 class="ion-text-center ion-padding">Welcom Back!</h2>
 
   <div class="ion-margin">
-    <ion-item>
-      <ion-icon slot="start" name="mail"></ion-icon>
-      <ion-input placeholder="Your Email Address" clearInput type="email"></ion-input>
-    </ion-item>
 
-    <ion-item>
-      <ion-icon slot="start" name="finger-print"></ion-icon>
-      <ion-input placeholder="Your Password" clearInput type="password"></ion-input>
-    </ion-item>
-  
-    <div class="ion-padding-top"> 
-      <ion-button expand="block" size="default" color="primary">Login</ion-button>
-    </div>
+    <form [formGroup]="form">
+      <ion-item>
+        <ion-icon slot="start" name="mail"></ion-icon>
+        <ion-input formControlName="email" placeholder="Your Email Address" clearInput type="email"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-icon slot="start" name="finger-print"></ion-icon>
+        <ion-input formControlName="password" placeholder="Your Password" clearInput type="password"></ion-input>
+      </ion-item>
+    
+      <div class="ion-padding-top"> 
+        <ion-button (click)="submitForm()" [disabled]="form.invalid" expand="block" size="default" color="primary">Login</ion-button>
+      </div>
+    </form>
 
   </div>
 

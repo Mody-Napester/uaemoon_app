@@ -22,6 +22,10 @@
         <ion-label>Add Inserts</ion-label>
       </ion-segment-button>
 
+      <ion-segment-button value="my-insert">
+        <ion-label>My Inserts</ion-label>
+      </ion-segment-button>
+
     </ion-segment>
   </ion-toolbar>
 
@@ -58,24 +62,37 @@
       </div>
 
       <div style="margin-top:150px;">
+
+        <form [formGroup]="form">
         <ion-item>
           <ion-icon slot="start" name="pulse"></ion-icon>
-          <ion-input placeholder="Your Name" clearInput type="text"></ion-input>
+          <ion-input formControlName="name" placeholder="Your Name" value="{{ thename }}" clearInput type="text"></ion-input>
         </ion-item>
     
         <ion-item>
           <ion-icon slot="start" name="mail"></ion-icon>
-          <ion-input placeholder="Your Email Address" clearInput type="email"></ion-input>
+          <ion-input formControlName="email" placeholder="Your Email Address" value="{{ theemail }}" clearInput type="email"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-icon slot="start" name="phone-portrait"></ion-icon>
+          <ion-input formControlName="phone" placeholder="Your Phone" value="{{ thephone }}"  clearInput type="text"></ion-input>
         </ion-item>
     
         <ion-item>
           <ion-icon slot="start" name="finger-print"></ion-icon>
-          <ion-input placeholder="Your Password" clearInput type="password"></ion-input>
+          <ion-input formControlName="password" placeholder="Your Password" clearInput type="password"></ion-input>
         </ion-item>
       
         <div class="ion-padding-top"> 
-          <ion-button expand="block" size="default" color="primary">Update My Account</ion-button>
+          <ion-button (click)="submitForm()" [disabled]="form.invalid" expand="block" size="default" color="primary">Update My Account</ion-button>
         </div>
+
+      </form>
+
+      <div class="ion-padding-top"> 
+        <ion-button (click)="logout()" expand="block" fill="outline" size="default" color="danger">Logout</ion-button>
+      </div>
     
       </div>
     </div>
@@ -119,6 +136,17 @@
       <img src="{{image}}">
     </ion-item>
 
+  </div>
+
+  <div *ngIf="selectedSegment == 'my-insert'">
+    
+  <ion-item *ngFor="let insert of inserts$ | async" button lines="full" (click)="openDetailsModal(insert)">
+    <ion-thumbnail slot="start">
+      <img [src]="insert.images" />
+    </ion-thumbnail>
+    <ion-label>{{ insert.title_en }}</ion-label>
+  </ion-item>
+  
   </div>
 
 </ion-content>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NavParams } from '@ionic/angular';
 
 @Component({
   selector: 'app-inserts-details',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class InsertsDetailsPage implements OnInit {
 
-  constructor() { }
+  public id:any;
+
+  constructor(
+    public navParams: NavParams,
+  ) { 
+    this.id = this.navParams;
+  }
 
   ngOnInit() {
+    console.log(this.id);
   }
 
 }

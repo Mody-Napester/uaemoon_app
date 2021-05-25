@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { MenuController, NavController } from '@ionic/angular';
+import { LoadingController, MenuController, NavController } from '@ionic/angular';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { Category } from 'src/app/interfaces/category';
+import { CategoriesService } from 'src/app/services/categories/categories.service';
 
 @Component({
   selector: 'app-categories',
@@ -7,12 +11,31 @@ import { MenuController, NavController } from '@ionic/angular';
   styleUrls: ['./categories.page.scss'],
 })
 export class CategoriesPage implements OnInit {
+  categories$:Observable<Category[]>;
+
   constructor(
     private navControl:NavController,
-    private menu: MenuController
-  ) { }
+    private menu: MenuController,
+    private categoryService:CategoriesService,
+    private loadingCtrl: LoadingController
+  ) { 
+    
+  }
 
-  ngOnInit() {
+  async ngOnInit() {
+    const laoding = await this.loadingCtrl.create({
+      message:'Loading ...',
+    });
+
+    laoding.present();
+
+    this.categories$ = this.categoryService.getCategories().pipe(
+      tap((categories) => {
+        laoding.dismiss();
+        console.log(categories);
+        return categories;
+      })
+    );
   }
 
   goToInserts(){
