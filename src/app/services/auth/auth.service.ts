@@ -1,6 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Insert } from 'src/app/interfaces/insert';
 import { User } from 'src/app/interfaces/user';
 import { environment } from 'src/environments/environment';
 
@@ -23,5 +24,13 @@ export class AuthService {
 
   updateUser(user : User, user_uuid : any): Observable<User>{
     return this.http.post<User>(environment.appURL + 'update_user/' + user_uuid, user);
+  }
+
+  userAds(user_uuid : any): Observable<Insert[]>{
+    return this.http.get<Insert[]>(environment.appURL + 'user/' + user_uuid + '/ads');
+  }
+
+  insertAd(insert : Insert, user_uuid : any): Observable<Insert>{
+    return this.http.post<Insert>(environment.appURL + 'user/' + user_uuid + '/add-new-ads', insert);
   }
 }

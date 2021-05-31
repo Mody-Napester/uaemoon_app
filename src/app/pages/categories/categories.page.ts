@@ -32,14 +32,15 @@ export class CategoriesPage implements OnInit {
     this.categories$ = this.categoryService.getCategories().pipe(
       tap((categories) => {
         laoding.dismiss();
-        console.log(categories);
         return categories;
       })
     );
   }
 
-  goToInserts(){
-    this.navControl.navigateForward('tabs/pages/inserts');
+  goToInserts(category_uuid, category_name){
+    localStorage.setItem('category_uuid', category_uuid);
+    localStorage.setItem('category_name', category_name);
+    this.navControl.navigateForward('/category-inserts');
   }
 
   openFirst() {

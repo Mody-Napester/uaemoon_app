@@ -1,8 +1,16 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { LoadingController, MenuController, NavController, ToastController } from '@ionic/angular';
-import { take } from 'rxjs/operators';
+import { LoadingController, MenuController, ModalController, NavController, ToastController } from '@ionic/angular';
+import { Observable } from 'rxjs';
+import { take, tap } from 'rxjs/operators';
+import { AdComponent } from 'src/app/components/ad/ad.component';
+import { Category } from 'src/app/interfaces/category';
+import { Insert } from 'src/app/interfaces/insert';
+import { AdsService } from 'src/app/services/ads/ads.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { CategoriesService } from 'src/app/services/categories/categories.service';
+import { environment } from 'src/environments/environment';
 
 // import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 // import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
@@ -15,15 +23,21 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 export class ProfilePage implements OnInit {
 
   selectedSegment : string = "profile";
-  image:any=''
-  imageData:any=''
+  image:any='';
+  imageData:any='';
 
   form: FormGroup;
+  formInsert: FormGroup;
+
+  imagefile : File = null;
 
   theuuid : any = localStorage.getItem('uuid');
   thename : any = localStorage.getItem('name');
   theemail : any = localStorage.getItem('email');
   thephone : any = localStorage.getItem('phone');
+
+  inserts$:Observable<Insert[]>;
+  categories$:Observable<Category[]>;
 
   constructor(
     // private camera: Camera,
@@ -31,14 +45,22 @@ export class ProfilePage implements OnInit {
     public loadingController: LoadingController,
     private menu: MenuController,
     private authService: AuthService,
+    private categoryService:CategoriesService,
     private loadingCtrl : LoadingController,
     private navCtrl: NavController,
     private toastCtrl: ToastController,
+    private modalCtrl: ModalController,
+    private http : HttpClient
     ){
 
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    let email = localStorage.getItem('email');
+    if(!email){
+      this.navCtrl.navigateRoot('/login');
+    }
+
     this.form = new FormGroup({
       name : new FormControl(this.thename, [Validators.required]),
       email : new FormControl(this.theemail, [Validators.required]),
@@ -46,12 +68,33 @@ export class ProfilePage implements OnInit {
       password : new FormControl(null, [Validators.required]),
     });
 
+    this.formInsert = new FormGroup({
+      category : new FormControl(null, [Validators.required]),
+      title : new FormControl(null, [Validators.required]),
+      details : new FormControl(null, [Validators.required]),
+      image: new FormControl('', [Validators.required]),
+      fileSource: new FormControl('', [Validators.required])
+    });
+
     console.log(this.theuuid);
+
+    this.inserts$ = this.authService.userAds(this.theuuid).pipe(
+      tap((inserts) => {
+        console.log(inserts);
+        return inserts;
+      })
+    );
+
+    this.categories$ = this.categoryService.getCategories().pipe(
+      tap((categories) => {
+        console.log(categories);
+        return categories;
+      })
+    );
+
   }
 
-
   segmentChange(event){
-    console.log(event.target.value);
     this.selectedSegment = event.target.value;
   }
 
@@ -60,17 +103,112 @@ export class ProfilePage implements OnInit {
     this.menu.open('profileMenu');
   }
 
+  changeFileInput(event){
+    const file = event.target.files[0];
+    this.formInsert.patchValue({
+      fileSource: file
+    });
+  }
+
+  onUpload(){
+    const formData = new FormData();
+    formData.append('image', this.formInsert.get('fileSource').value);
+    
+    console.log(formData.get('image'));
+   
+    this.http.post(environment.appURL + 'upload/image', this.formInsert.value)
+      .subscribe(res => {
+        console.log(res);
+        // alert('Uploaded Successfully.');
+      })
+  }
+
+
+  async submitFormInsert(){
+    
+    const loading = await this.loadingCtrl.create({
+      message:'Loading ...',
+    });
+
+    const toastError = await this.toastCtrl.create({
+      header: 'Insert Faild',  
+      message : 'Try again later!',
+      position : 'top',
+      duration : 5000,
+      color : 'danger',
+      buttons : [
+        {
+          icon : 'close',
+          role: 'cancel'
+        }
+      ]
+
+    });
+
+    const toastSuccess = await this.toastCtrl.create({
+      header: 'Insert Success',  
+      message : 'Your ad created susccfully wait for approval!',
+      position : 'top',
+      duration : 5000,
+      color : 'success',
+      buttons : [
+        {
+          icon : 'close',
+          role: 'cancel'
+        }
+      ]
+
+    });
+
+    loading.present();
+
+    const formData = new FormData();
+    formData.append('image', this.formInsert.get('fileSource').value);
+
+    this.authService.insertAd(this.formInsert.value, this.theuuid).pipe(
+      take(1)
+    ).subscribe((insert) => {
+      console.log(insert);
+
+      if(insert.status == 1){
+        loading.dismiss();
+        toastSuccess.present();
+        this.selectedSegment = 'my-insert';
+      }else{
+        loading.dismiss();
+
+        toastError.present();
+      }
+    });
+
+  }
+
   async submitForm(){
     const loading = await this.loadingCtrl.create({
       message:'Loading ...',
     });
 
-    const toast = await this.toastCtrl.create({
-      header: 'Login Faild',  
-      message : 'Email or/and password not correct!',
+    const toastError = await this.toastCtrl.create({
+      header: 'Update Faild',  
+      message : 'Your profile can\'t be updated',
       position : 'top',
       duration : 5000,
       color : 'danger',
+      buttons : [
+        {
+          icon : 'close',
+          role: 'cancel'
+        }
+      ]
+
+    });
+
+    const toastSuccess = await this.toastCtrl.create({
+      header: 'Update Success',  
+      message : 'Your Profile has been updated successfully',
+      position : 'top',
+      duration : 5000,
+      color : 'success',
       buttons : [
         {
           icon : 'close',
@@ -94,12 +232,12 @@ export class ProfilePage implements OnInit {
         localStorage.setItem('email', user.email);
         localStorage.setItem('phone', user.phone);
         loading.dismiss();
-        
-        this.navCtrl.navigateRoot('/profile')
+        toastSuccess.present();
+        this.navCtrl.navigateRoot('/tabs/pages/profile')
       }else{
         loading.dismiss();
 
-        toast.present();
+        toastError.present();
       }
     });
 
@@ -108,6 +246,15 @@ export class ProfilePage implements OnInit {
   logout(){
     localStorage.clear();
     this.navCtrl.navigateRoot('/welcome');
+  }
+
+  async openDetailsModal(insert : Insert){
+    const modal = await this.modalCtrl.create({
+      component: AdComponent,
+      componentProps: {insert}
+    });
+
+    modal.present();
   }
 
 //   openCam(){

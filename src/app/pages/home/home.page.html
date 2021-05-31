@@ -16,18 +16,12 @@
 <ion-menu side="start" menuId="homeMenu" contentId="homeMain">
   <ion-header>
     <ion-toolbar color="primary">
-      <ion-title>Menu</ion-title>
+      <ion-title>Other Pages</ion-title>
     </ion-toolbar>
   </ion-header>
   <ion-content>
     <ion-list>
-      <ion-item lines="full" routerLink="/agreement" details>
-        Agreemnt
-      </ion-item>
-      
-      <ion-item lines="full" routerLink="/agreement" details>
-        Add Your Insert
-      </ion-item>
+      <ion-item *ngFor="let page of pages$ | async" lines="full" details (click)="openPageModal(page)">{{ page.name }}</ion-item>
     </ion-list>
   </ion-content>
 </ion-menu>
@@ -36,20 +30,26 @@
 
 <ion-content>
 
-  <img src="../../../assets/images/category.jpg" alt="">
-
   <ion-slides pager="true" [options]="slideOpts">
-    <ion-slide style="height: 200px !important;" *ngFor="let category of categories$ | async" (click)="goToInserts()">
-      <img [src]="category.picture" alt="">
-      <!-- <h1>{{ category.name }}</h1> -->
+    <ion-slide *ngFor="let slider of sliders$ | async">
+      <img [src]="slider.image" alt="">
     </ion-slide>
   </ion-slides>
 
-  <!-- <ion-grid fixed>
+  <img src="../../../assets/images/category.jpg" alt="">
+
+  <!-- <ion-slides pager="true" [options]="slideOpts">
+    <ion-slide style="height: 200px !important;" *ngFor="let category of categories$ | async" (click)="goToInserts()">
+      <img [src]="category.picture" alt="">
+      <h1>{{ category.name }}</h1>
+    </ion-slide>
+  </ion-slides> -->
+
+  <ion-grid fixed>
     <ion-row>
 
       <ion-col size="6" *ngFor="let category of categories$ | async">
-        <ion-card (click)="goToInserts()">
+        <ion-card (click)="goToInserts(category.uuid, category.name)">
           <img [src]="category.picture" alt="">
           <ion-card-header>
             <ion-card-subtitle class="ion-text-center">{{ category.name }}</ion-card-subtitle>
@@ -58,15 +58,18 @@
       </ion-col>
 
     </ion-row>
-  </ion-grid> -->
+  </ion-grid>
 
   <img src="../../../assets/images/vip.jpg" alt="">
   
-  <ion-item *ngFor="let insert of inserts$ | async" button lines="full" (click)="openDetailsModal(insert)">
-    <ion-thumbnail slot="start">
-      <img [src]="insert.images" />
-    </ion-thumbnail>
-    <ion-label>{{ insert.title_en }}</ion-label>
-  </ion-item>
+  <div *ngFor="let insert of inserts$ | async">
+    <ion-item *ngIf="insert.is_featured == 1" button lines="full" (click)="openDetailsModal(insert)">
+      <ion-thumbnail slot="start">
+        <img [src]="insert.cover" />
+      </ion-thumbnail>
+      <ion-label>{{ insert.title_en }}</ion-label>
+    </ion-item>
+  </div>
+  
 
 </ion-content>

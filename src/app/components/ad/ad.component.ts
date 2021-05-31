@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ModalController, NavParams } from '@ionic/angular';
 
 @Component({
   selector: 'app-ad',
@@ -8,9 +8,16 @@ import { ModalController } from '@ionic/angular';
 })
 export class AdComponent implements OnInit {
 
+  insert : any;
+
   constructor(
-    private modalCtrl:ModalController
-  ) { }
+    private modalCtrl:ModalController,
+    params: NavParams
+  ) { 
+
+    this.insert = params.get('insert');
+
+  }
 
   ngOnInit() {}
 

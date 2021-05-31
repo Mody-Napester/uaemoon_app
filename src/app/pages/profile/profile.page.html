@@ -34,18 +34,13 @@
 <ion-menu side="start" menuId="profileMenu" contentId="profileMain">
   <ion-header>
     <ion-toolbar color="primary">
-      <ion-title>Menu</ion-title>
+      <ion-title>Other Pages</ion-title>
     </ion-toolbar>
   </ion-header>
   <ion-content>
     <ion-list>
-      <ion-item lines="full" routerLink="/agreement" details>
-        Agreemnt
-      </ion-item>
-      
-      <ion-item lines="full" routerLink="/agreement" details>
-        Add Your Insert
-      </ion-item>
+      <ion-item lines="full" routerLink="/terms" details>Terms</ion-item>
+      <ion-item lines="full" routerLink="/privacy" details>Privacy</ion-item>
     </ion-list>
   </ion-content>
 </ion-menu>
@@ -100,51 +95,75 @@
   </div>
 
   <div *ngIf="selectedSegment == 'add-insert'">
-    <div class="ion-text-center ion-padding" style="background-color: #f1c40f;">
+    <div class="ion-text-center ion-padding" style="background-color: #233881;">
       <img style="width: 70%;" src="../../assets/images/logo.png" alt="">
     </div>
 
-    <ion-item>
-      <ion-label>Category</ion-label>
-      <ion-select value="brown" okText="Okay" cancelText="Dismiss">
-        <ion-select-option value="brown">Brown</ion-select-option>
-        <ion-select-option value="blonde">Blonde</ion-select-option>
-        <ion-select-option value="black">Black</ion-select-option>
-        <ion-select-option value="red">Red</ion-select-option>
-      </ion-select>
-    </ion-item>
+    <!-- <ion-item>
+      <ion-icon slot="start" name="image"></ion-icon>
+      <input type="file" name="imagefile" (change)="changeFileInput($event)">
+      <ion-button (click)="onUpload()" slot="end">
+        Upload
+      </ion-button>
+    </ion-item> -->
 
-    <ion-item>
-      <ion-icon slot="start" name="pulse"></ion-icon>
-      <ion-input placeholder="Title" clearInput type="text"></ion-input>
-    </ion-item>
+    <form [formGroup]='formInsert' enctype="multipart/form-data">
 
-    <ion-item>
-      <ion-icon slot="start" name="pulse"></ion-icon>
-      <ion-textarea placeholder="Details" clearInput type="text" rows="5"></ion-textarea>
-    </ion-item>
+      <ion-item>
+        <ion-label>Category</ion-label>
+        <ion-select formControlName="category" value="Choose" okText="Okay" cancelText="Dismiss">
+          <ion-select-option *ngFor="let category of categories$ | async" value="{{ category.uuid }}">{{ category.name }}</ion-select-option>
+        </ion-select>
+      </ion-item>
 
-    <ion-item>
-      <ion-button (click)="openCam()" >Take Photo</ion-button>
-    </ion-item>
+      <ion-item>
+        <ion-icon slot="start" name="pulse"></ion-icon>
+        <ion-input formControlName="title" placeholder="Title" clearInput type="text"></ion-input>
+      </ion-item>
 
-    <ion-item>
-      <ion-button (click)="upload()" >Upload</ion-button>
-    </ion-item>
+      <ion-item>
+        <ion-icon slot="start" name="pulse"></ion-icon>
+        <ion-textarea formControlName="details" placeholder="Details" clearInput type="text" rows="2"></ion-textarea>
+      </ion-item>
 
-    <ion-item>
-      <img src="{{image}}">
-    </ion-item>
+      <ion-item>
+        <ion-icon slot="start" name="image"></ion-icon>
+        <input formControlName="image" id="image" type="file" (change)="changeFileInput($event)">
+      </ion-item>
 
+      <ion-item>
+        <ion-icon slot="start" name="image"></ion-icon>
+        <input formControlName="image" id="image" type="file" (change)="changeFileInput($event)">
+      </ion-item>
+
+      <div class="ion-padding-top"> 
+        <ion-button (click)="submitFormInsert()" [disabled]="formInsert.invalid" expand="block" size="default" color="primary">Save</ion-button>
+      </div>
+
+      <!-- <ion-item>
+        <ion-button (click)="openCam()" >Take Photo</ion-button>
+      </ion-item>
+
+      <ion-item>
+        <ion-button (click)="upload()" >Upload</ion-button>
+      </ion-item>
+
+      <ion-item>
+        <img src="{{image}}">
+      </ion-item> -->
+    
+    </form>
   </div>
 
   <div *ngIf="selectedSegment == 'my-insert'">
     
   <ion-item *ngFor="let insert of inserts$ | async" button lines="full" (click)="openDetailsModal(insert)">
     <ion-thumbnail slot="start">
-      <img [src]="insert.images" />
+      <img [src]="insert.cover" />
     </ion-thumbnail>
     <ion-label>{{ insert.title_en }}</ion-label>
+
+    <ion-badge color="{{ insert.bg }}" slot="end">{{ insert.status_text }}</ion-badge>
   </ion-item>
   
   </div>

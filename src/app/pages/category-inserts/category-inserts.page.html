@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-back-button slot="start" color="dark"></ion-back-button>
+    <ion-title>{{ category_name }} Ads</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-menu side="start" menuId="insertMenu" contentId="insertMain">
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-title>Menu</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <ion-item lines="full" routerLink="/agreement" details>
+        Agreemnt
+      </ion-item>
+      
+      <ion-item lines="full" routerLink="/agreement" details>
+        Add Your Insert
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<ion-router-outlet id="insertMain"></ion-router-outlet>
+
+<ion-content>
+
+  <ion-item *ngFor="let insert of inserts$ | async" button lines="full" (click)="openDetailsModal(insert)">
+    <ion-thumbnail slot="start">
+      <img [src]="insert.cover" />
+    </ion-thumbnail>
+    <ion-label>{{ insert.title_en }}</ion-label>
+  </ion-item>
+
+</ion-content>

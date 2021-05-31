@@ -1,0 +1,8 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "uaemoon-app",
+	"bundleWebRuntime": false,
+	"npmClient": "npm",
+	"webDir": "www",
+	"cordova": {}
+}

@@ -39,6 +39,7 @@ export class RegisterPage implements OnInit {
       take(1)
     ).subscribe((user) => {
       console.log(user);
+      localStorage.setItem('uuid', user.uuid);
       localStorage.setItem('name', user.name);
       localStorage.setItem('email', user.email);
       localStorage.setItem('phone', user.phone);

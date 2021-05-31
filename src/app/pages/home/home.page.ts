@@ -3,10 +3,15 @@ import { LoadingController, MenuController, ModalController, NavController } fro
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { AdComponent } from 'src/app/components/ad/ad.component';
+import { PageComponent } from 'src/app/components/page/page.component';
 import { Category } from 'src/app/interfaces/category';
 import { Insert } from 'src/app/interfaces/insert';
+import { Page } from 'src/app/interfaces/page';
+import { Slider } from 'src/app/interfaces/slider';
 import { AdsService } from 'src/app/services/ads/ads.service';
 import { CategoriesService } from 'src/app/services/categories/categories.service';
+import { PageService } from 'src/app/services/page/page.service';
+import { SliderService } from 'src/app/services/slider/slider.service';
 
 @Component({
   selector: 'app-home',
@@ -17,6 +22,8 @@ export class HomePage implements OnInit {
 
   categories$:Observable<Category[]>;
   inserts$:Observable<Insert[]>;
+  sliders$:Observable<Slider[]>;
+  pages$:Observable<Page[]>;
 
   slideOpts = {
     initialSlide: 1,
@@ -27,6 +34,8 @@ export class HomePage implements OnInit {
     private navControl:NavController,
     private menu: MenuController,
     private categoryService:CategoriesService,
+    private sliderService:SliderService,
+    private pageService:PageService,
     private loadingCtrl: LoadingController,
     private navCtrl: NavController,
     private insertService:AdsService,
@@ -48,11 +57,27 @@ export class HomePage implements OnInit {
         })
       );
 
+      this.sliders$ = this.sliderService.getAll().pipe(
+        tap((sliders) => {
+          laoding.dismiss();
+          console.log(sliders);
+          return sliders;
+        })
+      );
+
       this.inserts$ = this.insertService.getAll().pipe(
         tap((inserts) => {
           laoding.dismiss();
           console.log(inserts);
           return inserts;
+        })
+      );
+
+      this.pages$ = this.pageService.getAll().pipe(
+        tap((pages) => {
+          laoding.dismiss();
+          console.log(pages);
+          return pages;
         })
       );
     }
@@ -67,8 +92,19 @@ export class HomePage implements OnInit {
     this.menu.open('insertMenu');
   }
 
-  goToInserts(){
-    this.navControl.navigateForward('tabs/pages/inserts');
+  goToInserts(category_uuid, category_name){
+    localStorage.setItem('category_uuid', category_uuid);
+    localStorage.setItem('category_name', category_name);
+    this.navControl.navigateForward('/category-inserts');
+  }
+
+  async openPageModal(page : Page){
+    const modal = await this.modalCtrl.create({
+      component: PageComponent,
+      componentProps: {page}
+    });
+
+    modal.present();
   }
 
   async openDetailsModal(insert : Insert){

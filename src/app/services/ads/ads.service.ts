@@ -17,7 +17,7 @@ export class AdsService {
     return this.http.get<Insert[]>(environment.appURL + 'ads');
   }
 
-  // getOne(): Observable<Insert>{
-  //   return this.http.get<Insert>(environment.appURL + 'ads');
-  // }
+  getGetegoryAds(category_uuid : string): Observable<Insert[]>{
+    return this.http.get<Insert[]>(environment.appURL + 'categories/ads/' + category_uuid);
+  }
 }

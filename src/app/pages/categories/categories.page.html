@@ -16,18 +16,13 @@
 <ion-menu side="start" menuId="categoryMenu" contentId="categoryMain">
   <ion-header>
     <ion-toolbar color="primary">
-      <ion-title>Menu</ion-title>
+      <ion-title>Other Pages</ion-title>
     </ion-toolbar>
   </ion-header>
   <ion-content>
     <ion-list>
-      <ion-item lines="full" routerLink="/agreement" details>
-        Agreemnt
-      </ion-item>
-      
-      <ion-item lines="full" routerLink="/agreement" details>
-        Add Your Insert
-      </ion-item>
+      <ion-item lines="full" routerLink="/terms" details>Terms</ion-item>
+      <ion-item lines="full" routerLink="/privacy" details>Privacy</ion-item>
     </ion-list>
   </ion-content>
 </ion-menu>
@@ -42,7 +37,7 @@
     <ion-row>
 
       <ion-col size="6" *ngFor="let category of categories$ | async">
-        <ion-card (click)="goToInserts()">
+        <ion-card (click)="goToInserts(category.uuid, category.name)">
           <img [src]="category.picture" alt="">
           <ion-card-header>
             <ion-card-subtitle class="ion-text-center">{{ category.name }}</ion-card-subtitle>

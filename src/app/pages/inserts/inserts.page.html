@@ -16,18 +16,13 @@
 <ion-menu side="start" menuId="insertMenu" contentId="insertMain">
   <ion-header>
     <ion-toolbar color="primary">
-      <ion-title>Menu</ion-title>
+      <ion-title>Other Pages</ion-title>
     </ion-toolbar>
   </ion-header>
   <ion-content>
     <ion-list>
-      <ion-item lines="full" routerLink="/agreement" details>
-        Agreemnt
-      </ion-item>
-      
-      <ion-item lines="full" routerLink="/agreement" details>
-        Add Your Insert
-      </ion-item>
+      <ion-item lines="full" routerLink="/terms" details>Terms</ion-item>
+      <ion-item lines="full" routerLink="/privacy" details>Privacy</ion-item>
     </ion-list>
   </ion-content>
 </ion-menu>
@@ -38,7 +33,7 @@
 
   <ion-item *ngFor="let insert of inserts$ | async" button lines="full" (click)="openDetailsModal(insert)">
     <ion-thumbnail slot="start">
-      <img [src]="insert.images" />
+      <img [src]="insert.cover" />
     </ion-thumbnail>
     <ion-label>{{ insert.title_en }}</ion-label>
   </ion-item>

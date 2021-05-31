@@ -3,7 +3,7 @@
     <ion-back-button slot="start" color="dark"></ion-back-button>
     <ion-title>Details</ion-title>
 
-    <ion-button (click)="closeModal()" slot="end" fill="clear" color="light" (click)="openFirst()">
+    <ion-button (click)="closeModal()" slot="end" fill="clear" color="light">
       <ion-icon slot="icon-only" name="close"></ion-icon>
     </ion-button>
   </ion-toolbar>
@@ -11,16 +11,16 @@
 </ion-header>
 
 <ion-content>
-  <div style="height: 200px;overflow: hidden;">
-    <img src="{{ insert.cover }}" alt="">
-  </div>
+  <ion-slides pager="true" [options]="slideOpts">
+    <ion-slide *ngFor="let image of insert.images">
+      <img [src]="image.url" alt="">
+    </ion-slide>
+  </ion-slides>
 
   <div class="ion-padding ion-text-center">
     <h3>{{ insert.title_en }}</h3>
 
-    <div>
-      {{ insert.details_en }}
-    </div>
+    <div [innerHTML]="insert.details_en"></div>
 
   </div>
   

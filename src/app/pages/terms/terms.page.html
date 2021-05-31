@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-back-button slot="start" color="dark"></ion-back-button>
+    <ion-title>{{ name }} page</ion-title>
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content>
+  <img src="{{ cover }}" alt="">
+
+  <div class="ion-margin">
+    <h2>{{ name }}</h2>
+
+    <div style="color:#999999;" >
+      <div [innerHTML]="details"></div>
+    </div>
+
+  </div>
+
+</ion-content>

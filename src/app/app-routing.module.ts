@@ -35,6 +35,18 @@ const routes: Routes = [
     path: 'tabs',
     loadChildren: () => import('./tabs/tabs.module').then( m => m.TabsPageModule)
   },
+  {
+    path: 'category-inserts',
+    loadChildren: () => import('./pages/category-inserts/category-inserts.module').then( m => m.CategoryInsertsPageModule)
+  },
+  {
+    path: 'terms',
+    loadChildren: () => import('./pages/terms/terms.module').then( m => m.TermsPageModule)
+  },
+  {
+    path: 'privacy',
+    loadChildren: () => import('./pages/privacy/privacy.module').then( m => m.PrivacyPageModule)
+  },
 ];
 
 @NgModule({
