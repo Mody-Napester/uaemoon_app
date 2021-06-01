@@ -4,7 +4,11 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { AdComponent } from 'src/app/components/ad/ad.component';
 import { Insert } from 'src/app/interfaces/insert';
+import { Page } from 'src/app/interfaces/page';
 import { AdsService } from 'src/app/services/ads/ads.service';
+import { PageService } from 'src/app/services/page/page.service';
+import  { trans as ar }  from  '../../../assets/translation/ar.json';
+import  { trans as en }  from  '../../../assets/translation/en.json';
 
 @Component({
   selector: 'app-inserts',
@@ -13,15 +17,28 @@ import { AdsService } from 'src/app/services/ads/ads.service';
 })
 export class InsertsPage implements OnInit {
 
+  public trans : any;
+  public lang : any;
+
   inserts$:Observable<Insert[]>;
+  pages$:Observable<Page[]>;
 
   constructor(
     private menu: MenuController,
     private navCtrl: NavController,
     private insertService:AdsService,
     private loadingCtrl: LoadingController,
+    private pageService:PageService,
     private modalCtrl: ModalController
-    ) { }
+    ) {
+      if(localStorage.getItem('lang') == 'en'){
+        this.trans = en;
+        this.lang = true;
+      }else{
+        this.trans = ar;
+        this.lang = false;
+      }
+    }
 
     async ngOnInit() {
       const laoding = await this.loadingCtrl.create({
@@ -37,6 +54,26 @@ export class InsertsPage implements OnInit {
           return inserts;
         })
       );
+
+      this.pages$ = this.pageService.getAll().pipe(
+        tap((pages) => {
+          laoding.dismiss();
+          console.log(pages);
+          return pages;
+        })
+      );
+    }
+
+    changeLang() {
+      if(localStorage.getItem('lang') == 'ar'){
+        localStorage.setItem('lang', 'en');
+        window.location.reload();
+        this.lang = true;
+      }else{
+        localStorage.setItem('lang', 'ar');
+        window.location.reload();
+        this.lang = false;
+      }
     }
 
   openFirst() {

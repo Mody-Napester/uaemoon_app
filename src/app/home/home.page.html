@@ -1,12 +1,14 @@
 <ion-content [fullscreen]="true" color="primary">
   
   <div id="container">
-    <img src="../../assets/images/logo.png" alt="">
-    <strong color="dark">Explore More Ads</strong>
+    <div class="ion-text-center">
+      <img src="../../assets/images/logo.png" alt="">
+    </div>
+    <strong color="dark">{{ trans.Explore_More_Ads }}</strong>
 
     <div>
-      <ion-button expand="block" size="default" fill="outline" color="light" class="ion-margin" routerLink="/tabs/pages/home">Home</ion-button>
-      <ion-button expand="block" size="default" fill="" color="dark" class="ion-margin" (click)="goToAccount()">My Account</ion-button>
+      <ion-button expand="block" size="default" fill="outline" color="light" class="ion-margin" routerLink="/tabs/pages/home">{{ trans.home }}</ion-button>
+      <ion-button expand="block" size="default" fill="" color="dark" class="ion-margin" (click)="goToAccount()">{{ trans.my_account }}</ion-button>
     </div>
   </div>
 
@@ -14,6 +16,6 @@
 
 <ion-footer>
   <ion-toolbar color="primary" class="ion-text-center">
-    <ion-title><span routerLink="/terms">Terms</span> . <span routerLink="/privacy">Privacy</span></ion-title>
+    <ion-title><span routerLink="/terms">{{ trans.Terms }}</span> . <span routerLink="/privacy">{{ trans.privacy }}</span></ion-title>
   </ion-toolbar>
 </ion-footer>

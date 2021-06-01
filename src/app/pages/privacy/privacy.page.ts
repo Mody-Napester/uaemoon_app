@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { LoadingController } from '@ionic/angular';
 import { PageService } from 'src/app/services/page/page.service';
+import  { trans as ar }  from  '../../../assets/translation/ar.json';
+import  { trans as en }  from  '../../../assets/translation/en.json';
 
 @Component({
   selector: 'app-privacy',
@@ -8,6 +10,8 @@ import { PageService } from 'src/app/services/page/page.service';
   styleUrls: ['./privacy.page.scss'],
 })
 export class PrivacyPage implements OnInit {
+
+  public trans : any;
 
   public name:any;
   public details:any;
@@ -17,7 +21,13 @@ export class PrivacyPage implements OnInit {
   constructor(
     private loadinCtrl : LoadingController,
     private pageService : PageService,
-  ) {}
+  ) {
+    if(localStorage.getItem('lang') == 'en'){
+      this.trans = en;
+    }else{
+      this.trans = ar;
+    }
+  }
 
   async ngOnInit() {
     const loading = await this.loadinCtrl.create({

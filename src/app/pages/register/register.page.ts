@@ -3,6 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { LoadingController, NavController } from '@ionic/angular';
 import { take } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import  { trans as ar }  from  '../../../assets/translation/ar.json';
+import  { trans as en }  from  '../../../assets/translation/en.json';
 
 @Component({
   selector: 'app-register',
@@ -11,13 +13,21 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 })
 export class RegisterPage implements OnInit {
 
+  public trans : any;
+
   form: FormGroup;
 
   constructor(
     private authService: AuthService,
     private loadingCtrl : LoadingController,
     private navCtrl: NavController
-  ) { }
+  ) {
+    if(localStorage.getItem('lang') == 'en'){
+      this.trans = en;
+    }else{
+      this.trans = ar;
+    }
+  }
 
   ngOnInit() {
     this.form = new FormGroup({

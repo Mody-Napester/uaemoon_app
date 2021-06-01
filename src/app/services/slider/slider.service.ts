@@ -9,13 +9,15 @@ import { environment } from 'src/environments/environment';
 })
 export class SliderService {
 
+  public current_lang = localStorage.getItem('lang');
+
   constructor(
     private httClient: HttpClient
   ) { }
 
   // Get Slider
   getAll() : Observable<Slider[]>{
-    return this.httClient.get<Slider[]>(environment.appURL + 'sliders');
+    return this.httClient.get<Slider[]>(environment.appURL + this.current_lang + '/' + 'sliders');
   }
 
 }

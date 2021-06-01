@@ -3,6 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { LoadingController, NavController, ToastController } from '@ionic/angular';
 import { take } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import  { trans as ar }  from  '../../../assets/translation/ar.json';
+import  { trans as en }  from  '../../../assets/translation/en.json';
 
 @Component({
   selector: 'app-login',
@@ -11,6 +13,8 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 })
 export class LoginPage implements OnInit {
 
+  public trans : any;
+
   form: FormGroup;
 
   constructor(
@@ -18,7 +22,13 @@ export class LoginPage implements OnInit {
     private loadingCtrl : LoadingController,
     private navCtrl: NavController,
     private toastCtrl: ToastController,
-  ) { }
+  ) {
+    if(localStorage.getItem('lang') == 'en'){
+      this.trans = en;
+    }else{
+      this.trans = ar;
+    }
+  }
 
   ngOnInit() {
     this.form = new FormGroup({

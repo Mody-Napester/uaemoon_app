@@ -12,6 +12,8 @@ import { AdsService } from 'src/app/services/ads/ads.service';
 import { CategoriesService } from 'src/app/services/categories/categories.service';
 import { PageService } from 'src/app/services/page/page.service';
 import { SliderService } from 'src/app/services/slider/slider.service';
+import  { trans as ar }  from  '../../../assets/translation/ar.json';
+import  { trans as en }  from  '../../../assets/translation/en.json';
 
 @Component({
   selector: 'app-home',
@@ -19,6 +21,9 @@ import { SliderService } from 'src/app/services/slider/slider.service';
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
+
+  public trans : any;
+  public lang : any;
 
   categories$:Observable<Category[]>;
   inserts$:Observable<Insert[]>;
@@ -40,7 +45,15 @@ export class HomePage implements OnInit {
     private navCtrl: NavController,
     private insertService:AdsService,
     private modalCtrl: ModalController
-    ) { }
+    ) {
+      if(localStorage.getItem('lang') == 'en'){
+        this.trans = en;
+        this.lang = true;
+      }else{
+        this.trans = ar;
+        this.lang = false;
+      }
+    }
 
     async ngOnInit() {
       const laoding = await this.loadingCtrl.create({
@@ -81,6 +94,19 @@ export class HomePage implements OnInit {
         })
       );
     }
+
+    
+  changeLang() {
+    if(localStorage.getItem('lang') == 'ar'){
+      localStorage.setItem('lang', 'en');
+      window.location.reload();
+      this.lang = true;
+    }else{
+      localStorage.setItem('lang', 'ar');
+      window.location.reload();
+      this.lang = false;
+    }
+  }
 
   openMenu() {
     this.menu.enable(true, 'homeMenu');

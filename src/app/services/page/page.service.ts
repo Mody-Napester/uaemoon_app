@@ -9,20 +9,22 @@ import { environment } from 'src/environments/environment';
 })
 export class PageService {
 
+  public current_lang = localStorage.getItem('lang');
+
   constructor(
     private httpClient : HttpClient
   ) { }
 
   
   getAll() : Observable<Page[]>{
-    return this.httpClient.get<Page[]>(environment.appURL + 'pages/all');
+    return this.httpClient.get<Page[]>(environment.appURL + this.current_lang + '/' + 'pages/all');
   }
 
   getTermsPage(){
-    return this.httpClient.get(environment.appURL + 'pages/terms');
+    return this.httpClient.get(environment.appURL + this.current_lang + '/' + 'pages/terms');
   }
 
   getPrivacyPage(){
-    return this.httpClient.get(environment.appURL + 'pages/privacy');
+    return this.httpClient.get(environment.appURL + this.current_lang + '/' + 'pages/privacy');
   }
 }

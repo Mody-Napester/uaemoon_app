@@ -7,10 +7,14 @@ import { take, tap } from 'rxjs/operators';
 import { AdComponent } from 'src/app/components/ad/ad.component';
 import { Category } from 'src/app/interfaces/category';
 import { Insert } from 'src/app/interfaces/insert';
+import { Page } from 'src/app/interfaces/page';
 import { AdsService } from 'src/app/services/ads/ads.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { CategoriesService } from 'src/app/services/categories/categories.service';
+import { PageService } from 'src/app/services/page/page.service';
 import { environment } from 'src/environments/environment';
+import  { trans as ar }  from  '../../../assets/translation/ar.json';
+import  { trans as en }  from  '../../../assets/translation/en.json';
 
 // import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 // import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
@@ -21,6 +25,9 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./profile.page.scss'],
 })
 export class ProfilePage implements OnInit {
+
+  public trans : any;
+  public lang : any;
 
   selectedSegment : string = "profile";
   image:any='';
@@ -38,6 +45,7 @@ export class ProfilePage implements OnInit {
 
   inserts$:Observable<Insert[]>;
   categories$:Observable<Category[]>;
+  pages$:Observable<Page[]>;
 
   constructor(
     // private camera: Camera,
@@ -50,9 +58,16 @@ export class ProfilePage implements OnInit {
     private navCtrl: NavController,
     private toastCtrl: ToastController,
     private modalCtrl: ModalController,
+    private pageService:PageService,
     private http : HttpClient
     ){
-
+      if(localStorage.getItem('lang') == 'en'){
+        this.trans = en;
+        this.lang = true;
+      }else{
+        this.trans = ar;
+        this.lang = false;
+      }
   }
 
   async ngOnInit() {
@@ -92,8 +107,27 @@ export class ProfilePage implements OnInit {
       })
     );
 
+    this.pages$ = this.pageService.getAll().pipe(
+      tap((pages) => {
+        console.log(pages);
+        return pages;
+      })
+    );
+
   }
 
+  changeLang() {
+    if(localStorage.getItem('lang') == 'ar'){
+      localStorage.setItem('lang', 'en');
+      window.location.reload();
+      this.lang = true;
+    }else{
+      localStorage.setItem('lang', 'ar');
+      window.location.reload();
+      this.lang = false;
+    }
+  }
+  
   segmentChange(event){
     this.selectedSegment = event.target.value;
   }

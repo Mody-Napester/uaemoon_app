@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-back-button slot="start" color="dark"></ion-back-button>
-    <ion-title>Login</ion-title>
+    <ion-title>{{ trans.Login }}</ion-title>
   </ion-toolbar>
 
   <div class="ion-text-center ion-padding" style="background-color: #233881;">
@@ -11,23 +11,23 @@
 
 <ion-content>
 
-  <h2 class="ion-text-center ion-padding">Welcom Back!</h2>
+  <h2 class="ion-text-center ion-padding">{{ trans.Welcom_Back }}!</h2>
 
   <div class="ion-margin">
 
     <form [formGroup]="form">
       <ion-item>
         <ion-icon slot="start" name="mail"></ion-icon>
-        <ion-input formControlName="email" placeholder="Your Email Address" clearInput type="email"></ion-input>
+        <ion-input formControlName="email" placeholder="{{ trans.Your_Email_Address }}" clearInput type="email"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-icon slot="start" name="finger-print"></ion-icon>
-        <ion-input formControlName="password" placeholder="Your Password" clearInput type="password"></ion-input>
+        <ion-input formControlName="password" placeholder="{{ trans.Your_Password }}" clearInput type="password"></ion-input>
       </ion-item>
     
       <div class="ion-padding-top"> 
-        <ion-button (click)="submitForm()" [disabled]="form.invalid" expand="block" size="default" color="primary">Login</ion-button>
+        <ion-button (click)="submitForm()" [disabled]="form.invalid" expand="block" size="default" color="primary">{{ trans.Login }}</ion-button>
       </div>
     </form>
 
@@ -35,7 +35,7 @@
 
   <div class="ion-text-center ion-padding">
     <!-- <ion-button fill="clear" color="primary" routerLink="/forget-password">Forget Password?</ion-button> -->
-    <ion-button fill="clear" color="dark" routerLink="/register">Don't Have Account?</ion-button>
+    <ion-button fill="clear" color="dark" routerLink="/register">{{ trans.Dont_Have_Account }}?</ion-button>
   </div>
   
 </ion-content>
@@ -43,7 +43,7 @@
 <ion-footer>
   <ion-button routerLink="/" expand="block" size="small" fill="clear" color="dark" shape="round">
     <ion-icon slot="start" name="refresh"></ion-icon>
-    Go Home
+    {{ trans.Go_Home }}
   </ion-button>
 </ion-footer>
 

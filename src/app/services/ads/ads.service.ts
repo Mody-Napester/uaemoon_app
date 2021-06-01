@@ -9,15 +9,17 @@ import { environment } from 'src/environments/environment';
 })
 export class AdsService {
 
+  public current_lang = localStorage.getItem('lang');
+
   constructor(
     private http:HttpClient
   ) { }
 
   getAll(): Observable<Insert[]>{
-    return this.http.get<Insert[]>(environment.appURL + 'ads');
+    return this.http.get<Insert[]>(environment.appURL + this.current_lang + '/' + 'ads');
   }
 
   getGetegoryAds(category_uuid : string): Observable<Insert[]>{
-    return this.http.get<Insert[]>(environment.appURL + 'categories/ads/' + category_uuid);
+    return this.http.get<Insert[]>(environment.appURL + this.current_lang + '/' + 'categories/ads/' + category_uuid);
   }
 }

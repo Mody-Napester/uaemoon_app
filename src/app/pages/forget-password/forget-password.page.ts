@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import  { trans as ar }  from  '../../../assets/translation/ar.json';
+import  { trans as en }  from  '../../../assets/translation/en.json';
 
 @Component({
   selector: 'app-forget-password',
@@ -7,7 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ForgetPasswordPage implements OnInit {
 
-  constructor() { }
+  public trans : any;
+
+  constructor() {
+    if(localStorage.getItem('lang') == 'en'){
+      this.trans = en;
+    }else{
+      this.trans = ar;
+    }
+  }
 
   ngOnInit() {
   }

@@ -5,6 +5,8 @@ import { tap } from 'rxjs/operators';
 import { AdComponent } from 'src/app/components/ad/ad.component';
 import { Insert } from 'src/app/interfaces/insert';
 import { AdsService } from 'src/app/services/ads/ads.service';
+import  { trans as ar }  from  '../../../assets/translation/ar.json';
+import  { trans as en }  from  '../../../assets/translation/en.json';
 
 @Component({
   selector: 'app-category-inserts',
@@ -12,6 +14,8 @@ import { AdsService } from 'src/app/services/ads/ads.service';
   styleUrls: ['./category-inserts.page.scss'],
 })
 export class CategoryInsertsPage implements OnInit {
+
+  public trans : any;
 
   category_name : string;
   inserts$:Observable<Insert[]>;
@@ -22,7 +26,13 @@ export class CategoryInsertsPage implements OnInit {
     private insertService:AdsService,
     private loadingCtrl: LoadingController,
     private modalCtrl: ModalController
-    ) { }
+    ) { 
+      if(localStorage.getItem('lang') == 'en'){
+        this.trans = en;
+      }else{
+        this.trans = ar;
+      }
+    }
 
     async ngOnInit() {
       const laoding = await this.loadingCtrl.create({
@@ -33,6 +43,8 @@ export class CategoryInsertsPage implements OnInit {
 
       let category_uuid = localStorage.getItem('category_uuid');
       this.category_name = localStorage.getItem('category_name');
+
+      console.log(category_uuid);
       
       this.inserts$ = this.insertService.getGetegoryAds(category_uuid).pipe(
         tap((inserts) => {

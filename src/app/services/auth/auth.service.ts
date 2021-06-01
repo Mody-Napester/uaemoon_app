@@ -10,6 +10,8 @@ import { environment } from 'src/environments/environment';
 })
 export class AuthService {
 
+  public current_lang = localStorage.getItem('lang');
+
   constructor(
     private http:HttpClient
   ) { }
@@ -27,7 +29,7 @@ export class AuthService {
   }
 
   userAds(user_uuid : any): Observable<Insert[]>{
-    return this.http.get<Insert[]>(environment.appURL + 'user/' + user_uuid + '/ads');
+    return this.http.get<Insert[]>(environment.appURL + this.current_lang + '/' + 'user/' + user_uuid + '/ads');
   }
 
   insertAd(insert : Insert, user_uuid : any): Observable<Insert>{

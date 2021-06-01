@@ -9,11 +9,13 @@ import { environment } from 'src/environments/environment';
 })
 export class CategoriesService {
 
+  public current_lang = localStorage.getItem('lang');
+
   constructor(
     private http:HttpClient 
   ) { }
 
   getCategories(): Observable<Category[]>{
-    return this.http.get<Category[]>(environment.appURL + 'categories');
+    return this.http.get<Category[]>(environment.appURL + this.current_lang + '/' + 'categories');
   }
 }
