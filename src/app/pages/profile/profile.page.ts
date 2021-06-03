@@ -35,6 +35,7 @@ export class ProfilePage implements OnInit {
   formInsert: FormGroup;
 
   imagefile : File = null;
+  pictureFileVar : any;
 
   theuuid : any = localStorage.getItem('uuid');
   thename : any = localStorage.getItem('name');
@@ -145,7 +146,8 @@ export class ProfilePage implements OnInit {
   }
 
   changePictureInput(event){
-    const pictureFile = event.target.files[0];
+    this.pictureFileVar = event.target.files;
+    const pictureFile = event.target.files;
     this.formInsert.patchValue({
       pictureSource: pictureFile
     });
@@ -154,10 +156,15 @@ export class ProfilePage implements OnInit {
   onUpload(){
     const formData = new FormData();
     formData.append('cover', this.formInsert.get('coverSource').value);
-    formData.append('picture', this.formInsert.get('pictureSource').value);
+    formData.append('pictures_count', this.pictureFileVar.length);
+    for (let i = 0; i < this.pictureFileVar.length ; i++) {
+      formData.append('picture_' + i, this.pictureFileVar[i])
+    }
     
-    console.log(formData.get('cover'));
-    console.log(formData.get('picture'));
+    // formData.append('picture', this.formInsert.get('pictureSource').value);
+    
+    // console.log(formData.get('cover'));
+    // console.log(formData.get('picture'));
    
     this.http.post(environment.appURL + 'upload/image', formData)
       .subscribe(res => {
@@ -210,10 +217,11 @@ export class ProfilePage implements OnInit {
     formData.append('title', this.formInsert.get('title').value);
     formData.append('details', this.formInsert.get('details').value);
     formData.append('cover', this.formInsert.get('coverSource').value);
-    formData.append('picture', this.formInsert.get('pictureSource').value);
+    formData.append('pictures_count', this.pictureFileVar.length);
+    for (let i = 0; i < this.pictureFileVar.length ; i++) {
+      formData.append('picture_' + i, this.pictureFileVar[i])
+    }
     
-    console.log(formData.get('cover'));
-    console.log(formData.get('picture'));
 
     this.http.post(environment.appURL + 'user/' + this.theuuid + '/add-new-ads', formData).pipe(
       take(1)
