@@ -28,6 +28,6 @@
 @import "~@ionic/angular/css/flex-utils.css";
 
   
-* {
-    font-family: 'Tajawal', sans-serif;
+*, input {
+    font-family: 'Tajawal', sans-serif !important;
 }

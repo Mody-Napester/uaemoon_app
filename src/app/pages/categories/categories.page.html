@@ -50,7 +50,7 @@
         <ion-card (click)="goToInserts(category.uuid, category.name)">
           <!-- <img [src]="category.picture" alt=""> -->
           <div class="ion-text-center ion-padding">
-            <i class="fab fa fa-5x fa-fw {{ category.icon }}"></i>
+            <fa-icon style="color: #233881;" class="fa-5x fa-fw" [icon]="[category.icon_fa, category.icon]" ></fa-icon>
           </div>
           <ion-card-header>
             <ion-card-subtitle class="ion-text-center">{{ category.name }}</ion-card-subtitle>

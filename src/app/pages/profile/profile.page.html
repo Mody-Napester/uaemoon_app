@@ -117,7 +117,7 @@
       </ion-button>
     </ion-item> -->
 
-    <form [formGroup]='formInsert' enctype="multipart/form-data">
+    <form [formGroup]='formInsert' enctype="multipart/form-data" class="ion-padding">
 
       <ion-item>
         <ion-label>{{ trans.Category }}</ion-label>
@@ -137,14 +137,26 @@
       </ion-item>
 
       <ion-item>
-        <ion-icon slot="start" name="image"></ion-icon>
-        <input formControlName="image" id="image" type="file" (change)="changeFileInput($event)">
+        <ion-label>{{ trans.Cover }}</ion-label>
       </ion-item>
 
       <ion-item>
         <ion-icon slot="start" name="image"></ion-icon>
-        <input formControlName="image" id="image" type="file" (change)="changeFileInput($event)">
+        <input formControlName="cover" id="cover" type="file" (change)="changeCoverInput($event)">
       </ion-item>
+
+      <ion-item>
+        <ion-label>{{ trans.Images }}</ion-label>
+      </ion-item>
+
+      <ion-item>
+        <ion-icon slot="start" name="image"></ion-icon>
+        <input formControlName="picture" id="picture" type="file" multiple (change)="changePictureInput($event)">
+      </ion-item>
+
+      <!-- <div class="ion-padding-top"> 
+        <ion-button (click)="onUpload()" expand="block" size="default" color="warning">Upload Cover And Images</ion-button>
+      </div> -->
 
       <div class="ion-padding-top"> 
         <ion-button (click)="submitFormInsert()" [disabled]="formInsert.invalid" expand="block" size="default" color="primary">{{ trans.Save }}</ion-button>

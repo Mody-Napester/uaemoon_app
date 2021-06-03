@@ -30,8 +30,6 @@ export class ProfilePage implements OnInit {
   public lang : any;
 
   selectedSegment : string = "profile";
-  image:any='';
-  imageData:any='';
 
   form: FormGroup;
   formInsert: FormGroup;
@@ -87,8 +85,10 @@ export class ProfilePage implements OnInit {
       category : new FormControl(null, [Validators.required]),
       title : new FormControl(null, [Validators.required]),
       details : new FormControl(null, [Validators.required]),
-      image: new FormControl('', [Validators.required]),
-      fileSource: new FormControl('', [Validators.required])
+      cover: new FormControl('', [Validators.required]),
+      picture: new FormControl('', [Validators.required]),
+      coverSource: new FormControl('', []),
+      pictureSource: new FormControl('', []),
     });
 
     console.log(this.theuuid);
@@ -137,23 +137,32 @@ export class ProfilePage implements OnInit {
     this.menu.open('profileMenu');
   }
 
-  changeFileInput(event){
-    const file = event.target.files[0];
+  changeCoverInput(event){
+    const coverFile = event.target.files[0];
     this.formInsert.patchValue({
-      fileSource: file
+      coverSource: coverFile
+    });
+  }
+
+  changePictureInput(event){
+    const pictureFile = event.target.files[0];
+    this.formInsert.patchValue({
+      pictureSource: pictureFile
     });
   }
 
   onUpload(){
     const formData = new FormData();
-    formData.append('image', this.formInsert.get('fileSource').value);
+    formData.append('cover', this.formInsert.get('coverSource').value);
+    formData.append('picture', this.formInsert.get('pictureSource').value);
     
-    console.log(formData.get('image'));
+    console.log(formData.get('cover'));
+    console.log(formData.get('picture'));
    
-    this.http.post(environment.appURL + 'upload/image', this.formInsert.value)
+    this.http.post(environment.appURL + 'upload/image', formData)
       .subscribe(res => {
         console.log(res);
-        // alert('Uploaded Successfully.');
+        alert('Uploaded Successfully.');
       })
   }
 
@@ -197,23 +206,56 @@ export class ProfilePage implements OnInit {
     loading.present();
 
     const formData = new FormData();
-    formData.append('image', this.formInsert.get('fileSource').value);
+    formData.append('category', this.formInsert.get('category').value);
+    formData.append('title', this.formInsert.get('title').value);
+    formData.append('details', this.formInsert.get('details').value);
+    formData.append('cover', this.formInsert.get('coverSource').value);
+    formData.append('picture', this.formInsert.get('pictureSource').value);
+    
+    console.log(formData.get('cover'));
+    console.log(formData.get('picture'));
 
-    this.authService.insertAd(this.formInsert.value, this.theuuid).pipe(
+    this.http.post(environment.appURL + 'user/' + this.theuuid + '/add-new-ads', formData).pipe(
       take(1)
     ).subscribe((insert) => {
-      console.log(insert);
+        console.log(insert);
 
-      if(insert.status == 1){
-        loading.dismiss();
-        toastSuccess.present();
-        this.selectedSegment = 'my-insert';
-      }else{
-        loading.dismiss();
+        if(insert == 1){
+          loading.dismiss();
+          toastSuccess.present();
 
-        toastError.present();
-      }
-    });
+          this.formInsert.patchValue({category: ''});
+          this.formInsert.patchValue({title: ''});
+          this.formInsert.patchValue({details: ''});
+          this.formInsert.patchValue({cover: ''});
+          this.formInsert.patchValue({picture: ''});
+          this.formInsert.patchValue({coverSource: ''});
+          this.formInsert.patchValue({pictureSource: ''});
+
+          this.selectedSegment = 'my-insert';
+        }else{
+          loading.dismiss();
+  
+          toastError.present();
+        }
+        
+      })
+
+    // this.authService.insertAd(this.formInsert.value, this.theuuid).pipe(
+    //   take(1)
+    // ).subscribe((insert) => {
+    //   console.log(insert);
+
+    //   if(insert.status == 1){
+    //     loading.dismiss();
+    //     toastSuccess.present();
+    //     this.selectedSegment = 'my-insert';
+    //   }else{
+    //     loading.dismiss();
+
+    //     toastError.present();
+    //   }
+    // });
 
   }
 
