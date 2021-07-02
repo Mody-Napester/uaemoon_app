@@ -36,6 +36,7 @@ export class ProfilePage implements OnInit {
 
   imagefile : File = null;
   pictureFileVar : any;
+  coverFileVar : any;
 
   theuuid : any = localStorage.getItem('uuid');
   thename : any = localStorage.getItem('name');
@@ -58,6 +59,7 @@ export class ProfilePage implements OnInit {
     private toastCtrl: ToastController,
     private modalCtrl: ModalController,
     private pageService:PageService,
+    private loadinCtrl : LoadingController,
     private http : HttpClient
     ){
       if(localStorage.getItem('lang') == 'en'){
@@ -70,6 +72,7 @@ export class ProfilePage implements OnInit {
   }
 
   async ngOnInit() {
+
     let email = localStorage.getItem('email');
     if(!email){
       this.navCtrl.navigateRoot('/login');
@@ -85,6 +88,8 @@ export class ProfilePage implements OnInit {
     this.formInsert = new FormGroup({
       category : new FormControl(null, [Validators.required]),
       title : new FormControl(null, [Validators.required]),
+      youtube_url : new FormControl(null, [Validators.required]),
+      adv_type : new FormControl(null, [Validators.required]),
       details : new FormControl(null, [Validators.required]),
       cover: new FormControl('', [Validators.required]),
       picture: new FormControl('', [Validators.required]),
@@ -139,6 +144,7 @@ export class ProfilePage implements OnInit {
   }
 
   changeCoverInput(event){
+    this.coverFileVar = event.target.files[0];
     const coverFile = event.target.files[0];
     this.formInsert.patchValue({
       coverSource: coverFile
@@ -177,12 +183,42 @@ export class ProfilePage implements OnInit {
   async submitFormInsert(){
     
     const loading = await this.loadingCtrl.create({
-      message:'Loading ...',
+      message: this.trans.Loading,
     });
 
     const toastError = await this.toastCtrl.create({
-      header: 'Insert Faild',  
-      message : 'Try again later!',
+      header: this.trans.Insert_Faild,  
+      message : this.trans.Try_again_later,
+      position : 'top',
+      duration : 5000,
+      color : 'danger',
+      buttons : [
+        {
+          icon : 'close',
+          role: 'cancel'
+        }
+      ]
+
+    });
+
+    const toastCoverSizeError = await this.toastCtrl.create({
+      header: this.trans.Insert_Faild,  
+      message : this.trans.One_Of_The_Cover,
+      position : 'top',
+      duration : 5000,
+      color : 'danger',
+      buttons : [
+        {
+          icon : 'close',
+          role: 'cancel'
+        }
+      ]
+
+    });
+
+    const toastImageSizeError = await this.toastCtrl.create({
+      header: this.trans.Insert_Faild,  
+      message : this.trans.One_Of_The_image,
       position : 'top',
       duration : 5000,
       color : 'danger',
@@ -196,8 +232,8 @@ export class ProfilePage implements OnInit {
     });
 
     const toastSuccess = await this.toastCtrl.create({
-      header: 'Insert Success',  
-      message : 'Your ad created susccfully wait for approval!',
+      header: this.trans.Insert_Success,  
+      message : this.trans.Your_ad_created_susccfully_wait_for_approval,
       position : 'top',
       duration : 5000,
       color : 'success',
@@ -215,10 +251,26 @@ export class ProfilePage implements OnInit {
     const formData = new FormData();
     formData.append('category', this.formInsert.get('category').value);
     formData.append('title', this.formInsert.get('title').value);
+    formData.append('youtube_url', this.formInsert.get('youtube_url').value);
+    formData.append('adv_type', this.formInsert.get('adv_type').value);
     formData.append('details', this.formInsert.get('details').value);
+
     formData.append('cover', this.formInsert.get('coverSource').value);
+    var totalCoverSizeMB = this.coverFileVar.size / Math.pow(1024,2)
+    if(totalCoverSizeMB > 2){
+      loading.dismiss();
+      toastCoverSizeError.present();
+      return;
+    }
+
     formData.append('pictures_count', this.pictureFileVar.length);
     for (let i = 0; i < this.pictureFileVar.length ; i++) {
+      var totalImageSizeMB = this.pictureFileVar[i].size / Math.pow(1024,2)
+      if(totalImageSizeMB > 2){
+        loading.dismiss();
+        toastImageSizeError.present();
+        return;
+      }
       formData.append('picture_' + i, this.pictureFileVar[i])
     }
     
@@ -234,6 +286,8 @@ export class ProfilePage implements OnInit {
 
           this.formInsert.patchValue({category: ''});
           this.formInsert.patchValue({title: ''});
+          this.formInsert.patchValue({youtube_url: ''});
+          this.formInsert.patchValue({adv_type: ''});
           this.formInsert.patchValue({details: ''});
           this.formInsert.patchValue({cover: ''});
           this.formInsert.patchValue({picture: ''});
@@ -269,12 +323,12 @@ export class ProfilePage implements OnInit {
 
   async submitForm(){
     const loading = await this.loadingCtrl.create({
-      message:'Loading ...',
+      message: this.trans.Loading,
     });
 
     const toastError = await this.toastCtrl.create({
-      header: 'Update Faild',  
-      message : 'Your profile can\'t be updated',
+      header: this.trans.Update_Faild,  
+      message : this.trans.Your_profile_can_t_be_updated,
       position : 'top',
       duration : 5000,
       color : 'danger',
@@ -288,8 +342,8 @@ export class ProfilePage implements OnInit {
     });
 
     const toastSuccess = await this.toastCtrl.create({
-      header: 'Update Success',  
-      message : 'Your Profile has been updated successfully',
+      header: this.trans.Update_Success,  
+      message : this.trans.Your_Profile_has_been_updated_successfully,
       position : 'top',
       duration : 5000,
       color : 'success',
@@ -299,7 +353,6 @@ export class ProfilePage implements OnInit {
           role: 'cancel'
         }
       ]
-
     });
 
     loading.present();
@@ -390,6 +443,7 @@ export class ProfilePage implements OnInit {
 //    alert("error"+JSON.stringify(err));
 //  });
 //   }
+
 
   
 

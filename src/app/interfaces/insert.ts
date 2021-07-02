@@ -1,6 +1,7 @@
 export interface Insert{
     category:string,
     title:string,
+    youtube_url:any;
     details:string,
     status:number,
     status_text:number,
@@ -12,8 +13,9 @@ export interface Insert{
     image:any,
     cover:string,
     is_featured:number,
+    adv_type:any,
     approved_at:string,
     not_approved_at:string,
     not_approved_reason:string,
-    expired_at:string,
+    expired_at:string
 }

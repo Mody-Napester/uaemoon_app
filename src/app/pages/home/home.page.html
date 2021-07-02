@@ -39,7 +39,7 @@
 
 <ion-router-outlet id="homeMain"></ion-router-outlet>
 
-<ion-content>
+<ion-content color="primary">
 
   <ion-slides pager="true" [options]="slideOpts">
     <ion-slide *ngFor="let slider of sliders$ | async">
@@ -47,21 +47,34 @@
     </ion-slide>
   </ion-slides>
 
-  <img src="../../../assets/images/category.jpg" alt="">
+  <img *ngIf="lang" src="../../../assets/images/category.jpg" alt="">
+  <img *ngIf="!lang" src="../../../assets/images/category_ar.jpg" alt="">
 
   <!-- <ion-slides pager="true" [options]="slideOpts">
-    <ion-slide style="height: 200px !important;" *ngFor="let category of categories$ | async" (click)="goToInserts()">
-      <img [src]="category.picture" alt="">
+    <ion-slide *ngFor="let category of categories$ | async" (click)="goToInserts()">
+      <div style="height: 100px !important;width: 100px !important;">
+        <img [src]="category.picture" alt="">
+      </div>
       <h1>{{ category.name }}</h1>
     </ion-slide>
   </ion-slides> -->
 
-  <ion-grid fixed>
+  <ion-slides [options]="option" class="ion-margin">
+    <ion-slide *ngFor="let category of categories$ | async" (click)="goToInserts(category.uuid, category.name)">
+      <ion-card class="cm-card-cats">
+        <img [src]="category.picture" alt="">
+        <ion-label>{{ category.name }}</ion-label>
+      </ion-card>
+    </ion-slide>
+  </ion-slides>
+  
+
+  <!-- <ion-grid fixed>
     <ion-row>
 
       <ion-col size="6" *ngFor="let category of categories$ | async">
         <ion-card (click)="goToInserts(category.uuid, category.name)">
-          <!-- <img [src]="category.picture" alt=""> -->
+          <img [src]="category.picture" alt="">
           <div class="ion-text-center ion-padding">
             <fa-icon style="color: #233881;" class="fa-5x fa-fw" [icon]="[category.icon_fa, category.icon]" ></fa-icon>
           </div>
@@ -72,18 +85,47 @@
       </ion-col>
 
     </ion-row>
-  </ion-grid>
+  </ion-grid> -->
 
-  <img src="../../../assets/images/vip.jpg" alt="">
+  <img *ngIf="lang" src="../../../assets/images/vip.jpg" alt="">
+  <img *ngIf="!lang" src="../../../assets/images/vip_ar.jpg" alt="">
+
+  <div *ngFor="let category of categoriesWithInserts$ | async">
+    <h4 style="padding: 10px;background-color: #233C96;font-size: 16px;" class="ion-text-center">{{ category.name }} ({{ category.inserts.length }})</h4>
+
+    <!-- <div *ngFor="let insertVIP of category.inserts">
+      {{ insertVIP.title_en }}
+    </div> -->
+    
+    <ion-slides [options]="insertsoption" class="ion-margin">
+      <ion-slide *ngFor="let insertVIP of category.inserts" (click)="openDetailsModal(insertVIP)">
+        <ion-card class="cm-card-ads">
+          <img [src]="insertVIP.cover" alt="">
+          <ion-label>{{ insertVIP.title_en }}</ion-label>
+        </ion-card>
+      </ion-slide>
+    </ion-slides>
+
+  </div>
+
   
-  <div *ngFor="let insert of inserts$ | async">
-    <ion-item *ngIf="insert.is_featured == 1" button lines="full" (click)="openDetailsModal(insert)">
+  <!-- <ion-slides [options]="option" class="ion-margin">
+    <ion-slide *ngFor="let insert of inserts$ | async">
+      <ion-card *ngIf="insert.adv_type == 3" class="cm-card-slider" (click)="openDetailsModal(insert)">
+        <img [src]="insert.cover" alt="">
+        <ion-label>{{ insert.title_en }}</ion-label>
+      </ion-card>
+    </ion-slide>
+  </ion-slides> -->
+  
+  <!-- <div *ngFor="let insert of inserts$ | async">
+    <ion-item *ngIf="insert.adv_type == 3" button lines="full" (click)="openDetailsModal(insert)">
       <ion-thumbnail slot="start">
         <img [src]="insert.cover" />
       </ion-thumbnail>
       <ion-label>{{ insert.title_en }}</ion-label>
     </ion-item>
-  </div>
+  </div> -->
   
 
 </ion-content>

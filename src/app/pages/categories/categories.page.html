@@ -39,19 +39,20 @@
 
 <ion-router-outlet id="categoryMain"></ion-router-outlet>
 
-<ion-content>
+<ion-content color="primary">
 
-  <img src="../../../assets/images/category.jpg" alt="">
+  <img *ngIf="lang" src="../../../assets/images/category.jpg" alt="">
+  <img *ngIf="!lang" src="../../../assets/images/category_ar.jpg" alt="">
 
   <ion-grid fixed>
     <ion-row>
 
       <ion-col size="6" *ngFor="let category of categories$ | async">
         <ion-card (click)="goToInserts(category.uuid, category.name)">
-          <!-- <img [src]="category.picture" alt=""> -->
-          <div class="ion-text-center ion-padding">
+          <img [src]="category.picture" alt="">
+          <!-- <div class="ion-text-center ion-padding">
             <fa-icon style="color: #233881;" class="fa-5x fa-fw" [icon]="[category.icon_fa, category.icon]" ></fa-icon>
-          </div>
+          </div> -->
           <ion-card-header style="height: 50px;padding: 0;">
             <ion-card-subtitle class="ion-text-center">{{ category.name }}</ion-card-subtitle>
           </ion-card-header>

@@ -39,12 +39,12 @@ export class LoginPage implements OnInit {
 
   async submitForm(){
     const loading = await this.loadingCtrl.create({
-      message:'Loading ...',
+      message: this.trans.Loading,
     });
 
     const toast = await this.toastCtrl.create({
-      header: 'Login Faild',  
-      message : 'Email or/and password not correct!',
+      header: this.trans.Login_Faild,  
+      message : this.trans.Email_or_password_incorrect,
       position : 'top',
       duration : 5000,
       color : 'danger',

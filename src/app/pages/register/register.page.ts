@@ -40,7 +40,7 @@ export class RegisterPage implements OnInit {
 
   async submitForm(){
     const loading = await this.loadingCtrl.create({
-      message:'Loading ...',
+      message: this.trans.Loading,
     });
 
     loading.present();

@@ -31,7 +31,7 @@ export class PrivacyPage implements OnInit {
 
   async ngOnInit() {
     const loading = await this.loadinCtrl.create({
-      message: "Get Page ...",
+      message: this.trans.Loading,
     });
 
     loading.present();

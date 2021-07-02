@@ -18,4 +18,8 @@ export class CategoriesService {
   getCategories(): Observable<Category[]>{
     return this.http.get<Category[]>(environment.appURL + this.current_lang + '/' + 'categories');
   }
+
+  getCategoriesWithInserts(): Observable<Category[]>{
+    return this.http.get<Category[]>(environment.appURL + this.current_lang + '/' + 'categories-with-ads');
+  }
 }

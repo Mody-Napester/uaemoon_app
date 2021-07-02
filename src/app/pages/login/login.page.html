@@ -9,25 +9,25 @@
   </div>
 </ion-header>
 
-<ion-content>
+<ion-content color="primary">
 
   <h2 class="ion-text-center ion-padding">{{ trans.Welcom_Back }}!</h2>
 
   <div class="ion-margin">
 
     <form [formGroup]="form">
-      <ion-item>
+      <ion-item class="ion-margin-bottom">
         <ion-icon slot="start" name="mail"></ion-icon>
         <ion-input formControlName="email" placeholder="{{ trans.Your_Email_Address }}" clearInput type="email"></ion-input>
       </ion-item>
 
-      <ion-item>
+      <ion-item class="ion-margin-bottom">
         <ion-icon slot="start" name="finger-print"></ion-icon>
         <ion-input formControlName="password" placeholder="{{ trans.Your_Password }}" clearInput type="password"></ion-input>
       </ion-item>
     
       <div class="ion-padding-top"> 
-        <ion-button (click)="submitForm()" [disabled]="form.invalid" expand="block" size="default" color="primary">{{ trans.Login }}</ion-button>
+        <ion-button (click)="submitForm()" [disabled]="form.invalid" expand="block" size="default" color="secondary">{{ trans.Login }}</ion-button>
       </div>
     </form>
 

@@ -42,7 +42,7 @@ export class InsertsPage implements OnInit {
 
     async ngOnInit() {
       const laoding = await this.loadingCtrl.create({
-        message:'Loading ...',
+        message: this.trans.Loading,
       });
   
       laoding.present();

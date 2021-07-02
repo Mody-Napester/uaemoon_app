@@ -6,7 +6,6 @@ export const environment = {
   production: true,
   // appURL:'http://localhost/apps/uaemoon/api/',
   appURL: 'https://uae-moon.com/api/',
-  // appURL: 'https://cayshly.com/uaemoon/api/',
 };
 
 /*

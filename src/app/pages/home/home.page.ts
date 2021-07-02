@@ -26,12 +26,30 @@ export class HomePage implements OnInit {
   public lang : any;
 
   categories$:Observable<Category[]>;
+  categoriesWithInserts$:Observable<Category[]>;
   inserts$:Observable<Insert[]>;
   sliders$:Observable<Slider[]>;
   pages$:Observable<Page[]>;
 
   slideOpts = {
     initialSlide: 1,
+    speed: 400
+  };
+
+  option = {
+    slidesPerView: 2,
+    centeredSlides: true,
+    loop : true,
+    spaceBetween:10,
+    autoplay:true,
+    speed: 400
+  };
+
+  insertsoption = {
+    slidesPerView: 3,
+    centeredSlides: true,
+    spaceBetween:10,
+    autoplay:true,
     speed: 400
   };
 
@@ -56,8 +74,9 @@ export class HomePage implements OnInit {
     }
 
     async ngOnInit() {
+
       const laoding = await this.loadingCtrl.create({
-        message:'Loading ...',
+        message: this.trans.Loading,
       });
   
       laoding.present();
@@ -67,6 +86,14 @@ export class HomePage implements OnInit {
           laoding.dismiss();
           console.log(categories);
           return categories;
+        })
+      );
+
+      this.categoriesWithInserts$ = this.categoryService.getCategoriesWithInserts().pipe(
+        tap((categoriesWithInserts) => {
+          laoding.dismiss();
+          console.log(categoriesWithInserts);
+          return categoriesWithInserts;
         })
       );
 

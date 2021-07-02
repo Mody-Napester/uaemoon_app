@@ -39,7 +39,7 @@
 
 <ion-router-outlet id="insertMain"></ion-router-outlet>
 
-<ion-content>
+<ion-content color="primary">
 
   <ion-item *ngFor="let insert of inserts$ | async" button lines="full" (click)="openDetailsModal(insert)">
     <ion-thumbnail slot="start">
