@@ -17,5 +17,6 @@ export interface Insert{
     approved_at:string,
     not_approved_at:string,
     not_approved_reason:string,
-    expired_at:string
+    expired_at:string,
+    url:string
 }
