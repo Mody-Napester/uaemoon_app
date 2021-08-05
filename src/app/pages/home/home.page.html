@@ -47,8 +47,8 @@
     </ion-slide>
   </ion-slides>
 
-  <img *ngIf="lang" src="../../../assets/images/category.jpg" alt="">
-  <img *ngIf="!lang" src="../../../assets/images/category_ar.jpg" alt="">
+  <img *ngIf="lang" src="../../../assets/images/category_n.jpg" alt="">
+  <img *ngIf="!lang" src="../../../assets/images/category_ar_n.jpg" alt="">
 
   <!-- <ion-slides pager="true" [options]="slideOpts">
     <ion-slide *ngFor="let category of categories$ | async" (click)="goToInserts()">
@@ -87,8 +87,8 @@
     </ion-row>
   </ion-grid> -->
 
-  <img *ngIf="lang" src="../../../assets/images/vip.jpg" alt="">
-  <img *ngIf="!lang" src="../../../assets/images/vip_ar.jpg" alt="">
+  <img *ngIf="lang" src="../../../assets/images/vip_n.jpg" alt="">
+  <img *ngIf="!lang" src="../../../assets/images/vip_ar_n.jpg" alt="">
 
   <div *ngFor="let category of categoriesWithInserts$ | async">
     <h4 style="padding: 10px;background-color: #233C96;font-size: 16px;" class="ion-text-center">{{ category.name }} ({{ category.inserts.length }})</h4>
